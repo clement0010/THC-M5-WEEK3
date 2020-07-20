@@ -18,12 +18,12 @@ app.listen(3000, function () {
 })
 
 // Connect to Mongodb
-const url = "mongodb+srv://hipo4:test1234@cluster0.a88h4.mongodb.net/<dbname>?retryWrites=true&w=majority"
-mongoose.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-})
+const url = //add your own url
+    mongoose.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    })
 
 
 
