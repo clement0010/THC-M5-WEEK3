@@ -18,12 +18,12 @@ app.listen(3000, function () {
 })
 
 // Connect to Mongodb
-const url = //add your own url
-    mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false
-    })
+const url = "mongodb+srv://hipo4:test1234@cluster0.a88h4.mongodb.net/<dbname>?retryWrites=true&w=majority"
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+})
 
 
 
@@ -61,8 +61,12 @@ const updateById = function (id, todo) {
     return Todo.findOneAndUpdate({ _id: id }, { $set: { title: todo.title, done: todo.done } })
 }
 
+const deleteById = function (id) {
+    return Todo.findByIdAndDelete(id)
+}
+
 // Set up our ROUTES (GET,POST,PUT,DELETE) - Express
-app.post('/', async function (req, res) {
+app.post('/api', async function (req, res) {
 
     try {
         const title = req.body.title
@@ -88,7 +92,7 @@ app.post('/', async function (req, res) {
 
 })
 
-app.get('/', async function (req, res) {
+app.get('/api', async function (req, res) {
 
     try {
 
@@ -110,7 +114,7 @@ app.get('/', async function (req, res) {
 })
 
 
-app.put('/:id', async function (req, res) {
+app.put('/api/:id', async function (req, res) {
     try {
         const id = req.params.id
         const todo = req.body
@@ -129,6 +133,14 @@ app.put('/:id', async function (req, res) {
 
 })
 
-app.delete('/:id', function (req, res) {
-    res.send("Hello")
+app.delete('/api/:id', async function (req, res) {
+    try {
+        const { id } = req.params
+        const result = await deleteById(id)
+        console.log("Delete", result);
+        res.send(result)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Internal Error")
+    }
 })
